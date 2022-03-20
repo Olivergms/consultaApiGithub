@@ -4,6 +4,7 @@ using consultaApiGithub.Aplicacao.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace consultaApiGithub.Servicos.Api.Controllers
@@ -34,7 +35,7 @@ namespace consultaApiGithub.Servicos.Api.Controllers
             }
         }
         [HttpGet("Usuarios/{usuario}/Repositorios")]
-        public async Task<ActionResult> ObterResitorios(string usuario)
+        public async Task<ActionResult<IEnumerable<RepositoriosDto>>> ObterResitorios(string usuario)
         {
             try
             {
