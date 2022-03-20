@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace consultaApiGithub.Servicos.Api.Controllers
 {
-    [Route("api/")]
+    [Route("api/[controller]")]
     [ApiController]
     public class GithubController : Controller
     {
@@ -19,19 +19,32 @@ namespace consultaApiGithub.Servicos.Api.Controllers
             _githubServico = githubServico;
         }
 
-        [HttpGet]
-        [Route("Usuarios/{usuario}")]
+        [HttpGet("Usuarios/{usuario}")]
         public async Task<ActionResult<UsuarioDTO>> ObterPerfil(string usuario)
         {
             try
             {
                 var perfil = await _githubServico.ObterPerfil(usuario);
-                return Ok(perfil);
+                return StatusCode(StatusCodes.Status200OK, perfil);
             }
             catch (Exception ex)
             {
 
-                return StatusCode(StatusCodes.Status404NotFound, ex.Message);
+                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
+            }
+        }
+        [HttpGet("Usuarios/{usuario}/Repositorios")]
+        public async Task<ActionResult> ObterResitorios(string usuario)
+        {
+            try
+            {
+                var perfil = await _githubServico.ObterRepositorios(usuario);
+                return StatusCode(StatusCodes.Status200OK, perfil);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }
 

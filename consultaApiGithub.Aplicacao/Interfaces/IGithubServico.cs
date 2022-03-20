@@ -9,7 +9,7 @@ namespace consultaApiGithub.Aplicacao.Interfaces
 {
     public interface IGithubServico
     {
-        Task<string> ObterRepositorios(string usuario);
+        Task<IEnumerable<RepositoriosDto>> ObterRepositorios(string usuario);
         Task<UsuarioDTO> ObterPerfil(string usuario);
     }
 }

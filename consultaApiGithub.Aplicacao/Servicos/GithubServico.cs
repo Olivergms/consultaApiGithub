@@ -45,9 +45,28 @@ namespace consultaApiGithub.Aplicacao.Servicos
             }
         }
 
-        public Task<string> ObterRepositorios(string usuario)
+        public async Task<IEnumerable<RepositoriosDto>> ObterRepositorios(string usuario)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(usuario)) throw new Exception("nome de usuário inválido.");
+
+
+            var restCliente = _setupRequest.CriarRestClient();
+
+            RestRequest request = _setupRequest.MontarRequisicao($"users/{usuario}/repos", Method.Get);
+
+            var response = await restCliente.ExecuteAsync(request);
+
+
+            if (response.IsSuccessful)
+            {
+                var data = response.Content;
+                return JsonConvert.DeserializeObject<IEnumerable<RepositoriosDto>>(data);
+
+            }
+            else
+            {
+                throw new GithubException($"Repositorios de {usuario} não encontrados");
+            }
         }
     }
 }
